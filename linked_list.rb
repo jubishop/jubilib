@@ -11,21 +11,43 @@ class LinkedList
     values.each { |value| add_node(value) }
   end
 
-  def add_node(value)
-    new_node = ListNode.new(value)
+  def push_new_node(node)
     if (@head.nil?)
-      @head = @tail = new_node
+      @head = @tail = node
     else
-      @tail.next = new_node
-      @tail = new_node
+      @tail.next = node
+      @tail = node
     end
   end
+
+  def unshift_new_node(node)
+    if (@head.nil?)
+      @head = @tail = node
+    else
+      node.next = @head
+      @head = node
+    end
+  end
+
+  def shift_node
+    shifted_node = @head
+    unless (@head.nil?)
+      if (@head == @tail)
+        @tail = @head = nil
+      else
+        @head = head.next
+      end
+    end
+    return shifted_node
+  end
+
+  # pop_node will require doubly_linked list
 
   def remove_node(once = false)
     prev = nil
     cur = @head
     until (cur.nil?)
-      if (yield cur.val)
+      if (yield cur)
         if (prev.nil?)
           @head = @head.next
           @tail = @head if (@head.nil? or @head.next.nil?)
