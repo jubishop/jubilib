@@ -6,7 +6,7 @@ class ListNode
 end
 
 class LinkedList
-  attr_accessor :head
+  attr_accessor :head, :tail
   def initialize(values = [])
     unless (values.empty?)
       @head = ListNode.new(values.shift)
@@ -15,6 +15,7 @@ class LinkedList
         cur.next = ListNode.new(values.shift)
         cur = cur.next
       end
+      @tail = cur
     end
   end
 
@@ -23,7 +24,13 @@ class LinkedList
     cur = @head
     until (cur.nil?)
       if (yield cur.val)
-        prev.nil? ? @head = @head.next : prev.next = cur.next
+        if (prev.nil?)
+          @head = @head.next
+          @tail = @head if (@head.nil? or @head.next.nil?)
+        else
+          prev.next = cur.next
+          @tail = prev if (prev.next.nil?)
+        end
         return if (once)
       end
       prev = cur
