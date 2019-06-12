@@ -1,6 +1,6 @@
 class ListNode
   attr_accessor :val, :next
-  def initialize(val = 0)
+  def initialize(val)
     @val = val
   end
 end
@@ -8,14 +8,16 @@ end
 class LinkedList
   attr_accessor :head, :tail
   def initialize(values = [])
-    unless (values.empty?)
-      @head = ListNode.new(values.shift)
-      cur = @head
-      until (values.empty?)
-        cur.next = ListNode.new(values.shift)
-        cur = cur.next
-      end
-      @tail = cur
+    values.each { |value| add_node(value) }
+  end
+
+  def add_node(value)
+    new_node = ListNode.new(value)
+    if (@head.nil?)
+      @head = @tail = new_node
+    else
+      @tail.next = new_node
+      @tail = new_node
     end
   end
 
