@@ -3,4 +3,22 @@ class Array
     insertion_index = bsearch_index { |x| x >= value } || length
     insert(insertion_index, value)
   end
+
+  def each_binary_index(left = 0, right = length - 1)
+    while (left <= right)
+      middle = left + ((right - left) / 2).ceil
+      puts "left is: #{left}"
+      puts "right is: #{right}"
+      puts "middle is: #{middle}"
+      puts "value here is: #{self[middle]}"
+      result = yield middle
+      if (result == 0)
+        return middle
+      elsif (result == -1)
+        left = middle + 1
+      else
+        right = middle - 1
+      end
+    end
+  end
 end
