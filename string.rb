@@ -3,7 +3,7 @@ class String
     (0...length).each { |reduction|
       reduced_length = length - reduction
       0.upto(reduction) { |left|
-        return if yield self[left, reduced_length]
+        return self[left, reduced_length] if yield self[left, reduced_length]
       }
     }
   end
