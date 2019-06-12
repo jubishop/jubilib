@@ -16,6 +16,6 @@ class Array
         right = middle - 1
       end
     end
-    return -1
+    return nil
   end
 end
