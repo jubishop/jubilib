@@ -6,11 +6,7 @@ class Array
 
   def each_binary_index(left = 0, right = length - 1)
     while (left <= right)
-      middle = left + ((right - left) / 2).ceil
-      puts "left is: #{left}"
-      puts "right is: #{right}"
-      puts "middle is: #{middle}"
-      puts "value here is: #{self[middle]}"
+      middle = left + ((right - left) / 2)
       result = yield middle
       if (result == 0)
         return middle
@@ -20,5 +16,6 @@ class Array
         right = middle - 1
       end
     end
+    return -1
   end
 end
