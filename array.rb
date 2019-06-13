@@ -1,3 +1,5 @@
+require_relative 'range.rb'
+
 class Array
   def bsearch_insert(value)
     insertion_index = bsearch_index { |x| x >= value } || length
@@ -5,18 +7,7 @@ class Array
   end
 
   def each_binary_index(left = 0, right = length - 1)
-    while (left <= right)
-      middle = left + ((right - left) / 2)
-      result = yield middle
-      if (result == 0)
-        return middle
-      elsif (result == -1)
-        left = middle + 1
-      else
-        right = middle - 1
-      end
-    end
-    return nil
+    (0...length).binary_search { |index| yield index }
   end
 
   def each_binary_value(left = 0, right = length - 1)
