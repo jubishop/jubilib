@@ -18,4 +18,8 @@ class Array
     end
     return nil
   end
+
+  def each_binary_value(left = 0, right = length - 1)
+    each_binary_index(left, right) { |x| yield self[x] }
+  end
 end
