@@ -1,3 +1,5 @@
+require_relative "string.rb"
+
 class Trie
   def initialize(list_of_values = [])
     @head = TrieNode.new
@@ -32,12 +34,6 @@ class Trie
   end
 
   private
-
-  class String
-    def each
-      each_char { |char| yield char }
-    end
-  end
 
   class TrieNode
     attr_accessor :exists

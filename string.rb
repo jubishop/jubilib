@@ -1,4 +1,10 @@
 class String
+  include Enumerable
+
+  def each
+    each_char { |char| yield char }
+  end
+
   def sliding_window
     (0...length).each { |reduction|
       reduced_length = length - reduction
