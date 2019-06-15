@@ -1,3 +1,9 @@
+class String
+  def each
+    each_char { |char| yield char }
+  end
+end
+
 class Trie
   class TrieNode
     attr_accessor :exists
@@ -6,37 +12,46 @@ class Trie
       @exists = false
     end
 
-    def has_child?(char)
-      return @children.has_key? char
+    def has_child?(value)
+      return @children.has_key? value
     end
 
-    def [](char)
-      return @children[char]
+    def [](value)
+      return @children[value]
     end
 
-    def []=(char, node)
-      @children[char] = node
+    def []=(value, node)
+      @children[value] = node
     end
   end
 
-  def initialize(words = [])
+  def initialize(list_of_values = [])
     @head = TrieNode.new
-    words.each { |word| add_word(word) }
+    list_of_values.each { |values| add_path(values) }
   end
 
-  def add_word(word)
+  def has_path(values)
     cur = @head
-    word.each_char { |char|
-      cur[char] = TrieNode.new unless (cur.has_child? char)
-      cur = cur[char]
+    values.each { |value|
+      cur = cur[value]
+      return false if cur.nil?
+    }
+    return true
+  end
+
+  def add_leaf(values)
+    cur = @head
+    values.each { |value|
+      cur[value] = TrieNode.new unless (cur.has_child? value)
+      cur = cur[value]
     }
     cur.exists = true
   end
 
-  def find_word(word)
+  def has_leaf(values)
     cur = @head
-    word.each_char { |char|
-      cur = cur[char]
+    values.each { |value|
+      cur = cur[value]
       return false if cur.nil?
     }
     return cur.exists ? cur : false
