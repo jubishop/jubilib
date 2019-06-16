@@ -68,8 +68,19 @@ class SkipList
   end
 
   def remove_node(node)
-    #TODO: Find a new head
-    # if (node == @head)
+    if (node == @head)
+      @head.level.downto(0) { |level|
+        if (not @head[level].prev.nil?)
+          @head = @head[level].prev
+          break
+        elsif (not @head[level].next.nil?)
+          @head = @head[level].next
+          break
+        end
+      }
+    end
+    @head = nil if (node == @head)
+
     node.level.downto(0) { |level|
       prev_node = node[level].prev
       next_node = node[level].next
@@ -83,26 +94,12 @@ class SkipList
   def to_a
     array = Array.new
     cur = @head
-    cur = cur[0].prev until cur[0].prev.nil?
+    cur = cur[0].prev until (cur.nil? or cur[0].prev.nil?)
     until (cur.nil?)
       array.push(cur.value)
       cur = cur[0].next
     end
     return array
-  end
-
-  def debug_print
-    puts "Head is #{@head}"
-    0.upto(@head.level) { |level|
-      list = Array.new
-      cur = @head
-      cur = cur[level].prev until (cur[level].prev.nil?)
-      until (cur.nil?)
-        list.push(cur.to_s)
-        cur = cur[level].next
-      end
-      puts "Level #{level}: #{list.join(",")}"
-    }
   end
 
   private

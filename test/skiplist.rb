@@ -5,7 +5,7 @@ class SkipListTest < Test::Unit::TestCase
   def setup
     @test_array = Array.new(1000) { rand(1000) }
     @test_array_dupes = Array.new(1000) { rand(100) }
-    @test_array_sparse = Array.new(100) { rand(100000) }
+    @test_array_sparse = Array.new(1000) { rand(10000) }
     @all_arrays = [@test_array, @test_array_dupes, @test_array_sparse]
   end
 
@@ -19,12 +19,12 @@ class SkipListTest < Test::Unit::TestCase
   def test_find_by_value
     @all_arrays.each { |array|
       test_list = SkipList.new(array)
-      50.times {
+      200.times {
         value = array.sample
         node = test_list.find_node_with_value(value)
         assert_equal(node.value, value)
       }
-      50.times {
+      200.times {
         value = rand(array.length)
         node = test_list.find_node_with_value(value)
         if (array.include?(value))
@@ -39,7 +39,7 @@ class SkipListTest < Test::Unit::TestCase
   def test_remove_node
     @all_arrays.each { |array|
       test_list = SkipList.new(array)
-      50.times {
+      200.times {
         value = array.sample
         array.slice!(array.index(value))
         node = test_list.remove_node_with_value(value)
@@ -47,7 +47,7 @@ class SkipListTest < Test::Unit::TestCase
         assert_instance_of(SkipNode, node)
         assert_equal(array.sort, test_list.to_a)
       }
-      50.times {
+      200.times {
         value = rand(array.length)
         node = test_list.remove_node_with_value(value)
         if (array.include?(value))
@@ -59,6 +59,25 @@ class SkipListTest < Test::Unit::TestCase
         end
         assert_equal(array.sort, test_list.to_a)
       }
+    }
+  end
+
+  def test_remove_every_node
+    @all_arrays.each { |array|
+      array_clone = array.clone
+      test_list = SkipList.new(array)
+      array.length.times {
+        value = array.sample
+        array.slice!(array.index(value))
+        node = test_list.remove_node_with_value(value)
+        assert_equal(node.value, value)
+        assert_instance_of(SkipNode, node)
+        assert_equal(array.sort, test_list.to_a)
+      }
+      array_clone.each { |value|
+        test_list.add_new_node_with_value(value)
+      }
+      assert_equal(array_clone.sort, test_list.to_a)
     }
   end
 end
