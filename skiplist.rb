@@ -41,8 +41,9 @@ class SkipList
     next_node[max_level].prev = node unless next_node.nil?
     prev_node[max_level].next = node unless prev_node.nil?
 
+    # now find prev/next for all lower levels
     (max_level-1).downto(0) { |search_level|
-      prev_node, next_node = find_nearest_nodes(node, prev_node || next_node, search_level)
+      prev_node, next_node = dive_to_nearest_nodes(node, prev_node || next_node, search_level)
       node[search_level].next = next_node
       node[search_level].prev = prev_node
       next_node[search_level].prev = node unless next_node.nil?
@@ -52,10 +53,21 @@ class SkipList
     @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next == @head))
   end
 
+  def to_a
+    array = Array.new
+    cur = @head
+    cur = cur[0].prev until cur[0].prev.nil?
+    until (cur.nil?)
+      array.push(cur.value)
+      cur = cur[0].next
+    end
+    return array
+  end
+
   def debug_print
-    list = Array.new
     puts "Head is #{@head}"
     0.upto(@head.level) { |level|
+      list = Array.new
       cur = @head
       cur = cur[level].prev until (cur[level].prev.nil?)
       until (cur.nil?)
@@ -63,7 +75,6 @@ class SkipList
         cur = cur[level].next
       end
       puts "Level #{level}: #{list.join(",")}"
-      list.clear
     }
   end
 
@@ -89,12 +100,6 @@ class SkipList
       dive_to_nearest_nodes(node, search_node, search_level - 1)
   end
 
-  def find_nearest_nodes(node, search_node, search_level)
-    return (search_node.value < node.value) ?
-      find_nearest_forward_node(node, search_node, search_level) :
-      find_nearest_backward_node(node, search_node, search_level)
-  end
-
   def find_nearest_forward_node(node, search_node, search_level)
     while (not search_node[search_level].next.nil? and search_node[search_level].next.value < node.value)
       search_node = search_node[search_level].next
@@ -109,9 +114,3 @@ class SkipList
     return search_node[search_level].prev, search_node
   end
 end
-
-input = Array.new(20) { rand(100) }
-puts input.join(",")
-puts input.sort.join(",")
-skip_list = SkipList.new(input)
-skip_list.debug_print

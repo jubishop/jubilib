@@ -3,7 +3,7 @@ require 'test/unit'
 
 class LinkedListTest < Test::Unit::TestCase
   def setup
-    @test_array = Array.new(100).map { rand(100) }
+    @test_array = Array.new(100) { rand(100) }
   end
 
   def test_linkedlist_instantiation
