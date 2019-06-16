@@ -75,7 +75,7 @@ class SkipListTest < Test::Unit::TestCase
         assert_equal(array.sort, test_list.to_a)
       }
       array_clone.each { |value|
-        test_list.add_new_node_with_value(value)
+        test_list.add_node_with_value(value)
       }
       assert_equal(array_clone.sort, test_list.to_a)
     }

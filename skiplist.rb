@@ -27,10 +27,10 @@ end
 
 class SkipList
   def initialize(values = Array.new)
-    values.each { |value| add_new_node_with_value(value) }
+    values.each { |value| add_node_with_value(value) }
   end
 
-  def add_new_node_with_value(value)
+  def add_node_with_value(value)
     node = SkipNode.new(value)
     @head = node and return if (@head.nil?)
 
