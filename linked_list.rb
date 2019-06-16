@@ -1,5 +1,5 @@
 class ListNode
-  attr_accessor :val, :next, :prev
+  attr_accessor :val, :prev, :next
   def initialize(val)
     @val = val
   end
