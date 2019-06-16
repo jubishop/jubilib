@@ -81,6 +81,11 @@ class SkipList
   private
 
   def dive_to_nearest_nodes(node, search_node, search_level)
+    if (node.value == search_node.value)
+      max_level = [node.level, search_level].min
+      return search_node, search_node[max_level].next
+    end
+
     return (search_node.value < node.value) ?
       dive_forward_to_nearest_nodes(node, search_node, search_level) :
       dive_backward_to_nearest_nodes(node, search_node, search_level)
