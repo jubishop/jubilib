@@ -35,7 +35,7 @@ class SkipList
 
     # find top level prev/next for this node
     max_level = [node.level, @head.level].min
-    prev_node, next_node = dive_to_nearest_nodes(node, @head, @head.level)
+    prev_node, next_node = dive_to_nearest_nodes(node.value, node.level, @head, @head.level)
     node[max_level].next = next_node
     node[max_level].prev = prev_node
     next_node[max_level].prev = node unless next_node.nil?
@@ -43,7 +43,7 @@ class SkipList
 
     # now find prev/next for all lower levels
     (max_level-1).downto(0) { |search_level|
-      prev_node, next_node = dive_to_nearest_nodes(node, prev_node || next_node, search_level)
+      prev_node, next_node = dive_to_nearest_nodes(node.value, node.level, prev_node || next_node, search_level)
       node[search_level].next = next_node
       node[search_level].prev = prev_node
       next_node[search_level].prev = node unless next_node.nil?
@@ -80,40 +80,35 @@ class SkipList
 
   private
 
-  def dive_to_nearest_nodes(node, search_node, search_level)
-    if (node.value == search_node.value)
-      max_level = [node.level, search_level].min
-      return search_node, search_node[max_level].next
-    end
+  def dive_to_nearest_nodes(value, level, search_node, search_level)
+    return [search_node, search_node[[level, search_level].min].next] if (value == search_node.value)
 
-    return (search_node.value < node.value) ?
-      dive_forward_to_nearest_nodes(node, search_node, search_level) :
-      dive_backward_to_nearest_nodes(node, search_node, search_level)
+    return (search_node.value < value) ?
+      dive_forward_to_nearest_nodes(value, level, search_node, search_level) :
+      dive_backward_to_nearest_nodes(value, level, search_node, search_level)
   end
 
-  def dive_forward_to_nearest_nodes(node, search_node, search_level)
-    search_node, next_node = find_nearest_forward_node(node, search_node, search_level)
-    return (node.level >= search_level) ?
-      [search_node, next_node] :
-      dive_to_nearest_nodes(node, search_node, search_level - 1)
+  def dive_forward_to_nearest_nodes(value, level, search_node, search_level)
+    search_node, next_node = find_nearest_forward_node(value, level, search_node, search_level)
+    return (level >= search_level) ? [search_node, next_node] :
+      dive_to_nearest_nodes(value, level, search_node, search_level - 1)
   end
 
-  def dive_backward_to_nearest_nodes(node, search_node, search_level)
-    prev_node, search_node = find_nearest_backward_node(node, search_node, search_level)
-    return (node.level >= search_level) ?
-      [prev_node, search_node] :
-      dive_to_nearest_nodes(node, search_node, search_level - 1)
+  def dive_backward_to_nearest_nodes(value, level, search_node, search_level)
+    prev_node, search_node = find_nearest_backward_node(value, level, search_node, search_level)
+    return (level >= search_level) ? [prev_node, search_node] :
+      dive_to_nearest_nodes(value, level, search_node, search_level - 1)
   end
 
-  def find_nearest_forward_node(node, search_node, search_level)
-    while (not search_node[search_level].next.nil? and search_node[search_level].next.value < node.value)
+  def find_nearest_forward_node(value, level, search_node, search_level)
+    while (not search_node[search_level].next.nil? and search_node[search_level].next.value < value)
       search_node = search_node[search_level].next
     end
     return search_node, search_node[search_level].next
   end
 
-  def find_nearest_backward_node(node, search_node, search_level)
-    while (not search_node[search_level].prev.nil? and search_node[search_level].prev.value > node.value)
+  def find_nearest_backward_node(value, level, search_node, search_level)
+    while (not search_node[search_level].prev.nil? and search_node[search_level].prev.value > value)
       search_node = search_node[search_level].prev
     end
     return search_node[search_level].prev, search_node
