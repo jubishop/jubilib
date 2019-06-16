@@ -35,7 +35,7 @@ class SkipList
 
     # find top level prev/next for this node
     max_level = [node.level, @head.level].min
-    prev_node, next_node = dive_to_nearest_nodes(node.value, node.level, @head, @head.level)
+    prev_node, next_node = dive_to_nearest_nodes(node.value, node.level)
     node[max_level].next = next_node
     node[max_level].prev = prev_node
     next_node[max_level].prev = node unless next_node.nil?
@@ -51,6 +51,13 @@ class SkipList
     }
 
     @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next == @head))
+  end
+
+  def find_node_by_value(value)
+    prev_node, next_node = dive_to_nearest_nodes(value, 0)
+    return prev_node if (not prev_node.nil? and prev_node.value == value)
+    return next_node if (not next_node.nil? and next_node.value == value)
+    return false
   end
 
   def to_a
@@ -80,7 +87,7 @@ class SkipList
 
   private
 
-  def dive_to_nearest_nodes(value, level, search_node, search_level)
+  def dive_to_nearest_nodes(value, level, search_node = @head, search_level = @head.level)
     return [search_node, search_node[[level, search_level].min].next] if (value == search_node.value)
 
     return (search_node.value < value) ?

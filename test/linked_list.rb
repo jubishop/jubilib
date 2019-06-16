@@ -6,24 +6,24 @@ class LinkedListTest < Test::Unit::TestCase
     @test_array = Array.new(100) { rand(100) }
   end
 
-  def test_linkedlist_instantiation
+  def test_instantiation
     test_list = LinkedList.new(@test_array)
     assert_equal(@test_array, test_list.to_a)
   end
 
-  def test_linkedlist_push
+  def test_push
     test_list = LinkedList.new
     @test_array.each { |value| test_list.push_new_node(ListNode.new(value)) }
     assert_equal(@test_array, test_list.to_a)
   end
 
-  def test_linkedlist_unshift
+  def test_unshift
     test_list = LinkedList.new
     @test_array.each { |value| test_list.unshift_new_node(ListNode.new(value)) }
     assert_equal(@test_array.reverse, test_list.to_a)
   end
 
-  def test_linkedlist_pop
+  def test_pop
     test_list = LinkedList.new(@test_array)
     until(@test_array.empty?)
       @test_array.pop
@@ -32,7 +32,7 @@ class LinkedListTest < Test::Unit::TestCase
     end
   end
 
-  def test_linkedlist_shift
+  def test_shift
     test_list = LinkedList.new(@test_array)
     until(@test_array.empty?)
       @test_array.shift
@@ -41,7 +41,7 @@ class LinkedListTest < Test::Unit::TestCase
     end
   end
 
-  def test_linkedlist_remove
+  def test_remove
     test_list = LinkedList.new(@test_array)
     5.times {
       first = @test_array.shift
