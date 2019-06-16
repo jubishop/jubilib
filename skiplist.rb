@@ -27,10 +27,11 @@ end
 
 class SkipList
   def initialize(values = Array.new)
-    values.each { |value| add_new_node(SkipNode.new(value)) }
+    values.each { |value| add_new_node_with_value(value) }
   end
 
-  def add_new_node(node)
+  def add_new_node_with_value(value)
+    node = SkipNode.new(value)
     @head = node and return if (@head.nil?)
 
     # find top level prev/next for this node
@@ -53,11 +54,30 @@ class SkipList
     @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next == @head))
   end
 
-  def find_node_by_value(value)
+  def find_node_with_value(value)
     prev_node, next_node = dive_to_nearest_nodes(value, 0)
     return prev_node if (not prev_node.nil? and prev_node.value == value)
     return next_node if (not next_node.nil? and next_node.value == value)
     return false
+  end
+
+  def remove_node_with_value(value)
+    found_node = find_node_with_value(value)
+    return remove_node(found_node) if (found_node)
+    return false
+  end
+
+  def remove_node(node)
+    #TODO: Find a new head
+    # if (node == @head)
+    node.level.downto(0) { |level|
+      prev_node = node[level].prev
+      next_node = node[level].next
+      prev_node[level].next = next_node unless (prev_node.nil?)
+      next_node[level].prev = prev_node unless (next_node.nil?)
+      node[level].prev = node[level].next = nil
+    }
+    return node
   end
 
   def to_a
@@ -87,6 +107,7 @@ class SkipList
 
   private
 
+  # workhorse recursive function that works with the others below to find the nodes surrounding a value
   def dive_to_nearest_nodes(value, level, search_node = @head, search_level = @head.level)
     return [search_node, search_node[[level, search_level].min].next] if (value == search_node.value)
 

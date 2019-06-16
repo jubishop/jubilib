@@ -21,17 +21,43 @@ class SkipListTest < Test::Unit::TestCase
       test_list = SkipList.new(array)
       50.times {
         value = array.sample
-        node = test_list.find_node_by_value(value)
+        node = test_list.find_node_with_value(value)
         assert_equal(node.value, value)
       }
       50.times {
         value = rand(array.length)
-        node = test_list.find_node_by_value(value)
+        node = test_list.find_node_with_value(value)
         if (array.include?(value))
           assert_equal(node.value, value)
         else
           assert_false(node)
         end
+      }
+    }
+  end
+
+  def test_remove_node
+    @all_arrays.each { |array|
+      test_list = SkipList.new(array)
+      50.times {
+        value = array.sample
+        array.slice!(array.index(value))
+        node = test_list.remove_node_with_value(value)
+        assert_equal(node.value, value)
+        assert_instance_of(SkipNode, node)
+        assert_equal(array.sort, test_list.to_a)
+      }
+      50.times {
+        value = rand(array.length)
+        node = test_list.remove_node_with_value(value)
+        if (array.include?(value))
+          array.slice!(array.index(value))
+          assert_equal(node.value, value)
+          assert_instance_of(SkipNode, node)
+        else
+          assert_false(node)
+        end
+        assert_equal(array.sort, test_list.to_a)
       }
     }
   end
