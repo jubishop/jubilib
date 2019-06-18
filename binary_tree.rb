@@ -1,17 +1,13 @@
 class TreeNode
   attr_accessor :value, :left, :right
-  def initialize(*values)
-    @value = values.shift
-    @left = TreeNode.new(values.shift) unless values.empty?
-    @right = TreeNode.new(values.shift) unless values.empty?
+  def initialize(value, left = nil, right = nil)
+    @value = value
+    @left = TreeNode.new(*left) unless left.nil?
+    @right = TreeNode.new(*right) unless right.nil?
   end
 
-  def to_a
-    [@value, @left.nil? ? nil : @left.to_a, @right.nil? ? nil : @right.to_a]
+  def serialize
+    return @value if (@left.nil? and @right.nil?)
+    return [@value, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
   end
 end
-
-data = [1, [2, nil, nil], [3, [4, nil, nil], [5, nil, nil]]]
-puts data.flatten.length
-node = TreeNode.new(data)
-puts node.to_a.flatten.length
