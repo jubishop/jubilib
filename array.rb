@@ -2,8 +2,10 @@ require_relative 'range.rb'
 
 class Array
   def bsearch_insert(value)
-    insertion_index = bsearch_index { |x| x >= value } || length
-    insert(insertion_index, value)
+    insertion_index = block_given? ?
+        bsearch_index { |x| yield x } :
+        bsearch_index { |x| x >= value }
+    insert(insertion_index || length, value)
   end
 
   def each_binary_index(left = 0, right = length - 1)
