@@ -1,3 +1,5 @@
+# Usage:
+# (min..max) { |x| x <=> target } => Integer or nil
 class Range
   def binary_search
     left, right = min, max
