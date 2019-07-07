@@ -4,7 +4,7 @@ class Range
   def binary_search
     left, right = min, max
     while (left <= right)
-      middle = left + ((right - left) / 2)
+      middle = (left + right) / 2
       result = yield middle
       if (result == 0)
         return middle

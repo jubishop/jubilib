@@ -9,7 +9,7 @@ class Array
   end
 
   def each_binary_index(left = 0, right = length - 1)
-    (0...length).binary_search { |index| yield index }
+    (left..right).binary_search { |index| yield index }
   end
 
   def each_binary_value(left = 0, right = length - 1)
