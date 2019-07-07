@@ -89,3 +89,24 @@ class LinkedList
     return array
   end
 end
+
+def make_list(array)
+  return nil if array.nil? or array.empty?
+  head = ListNode.new(array.shift)
+  cur = head
+  array.each { |elem|
+    cur.next = ListNode.new(elem)
+    cur = cur.next
+  }
+  return head
+end
+
+def print_list(head)
+  return if head.nil?
+  until (head.nil?)
+    print "#{head.val}"
+    print "," unless head.next.nil?
+    head = head.next
+  end
+  puts ""
+end
