@@ -2,19 +2,26 @@ require_relative '../array.rb'
 require 'test/unit'
 
 class ArrayTest < Test::Unit::TestCase
-  def test_bsearch_insert_and_each_binary_index
+  def test_bsearch_insert_remove_and_each
     100.times {
       test_array = Array.new
-      rand(1000).times { test_array.bsearch_insert(rand(1000)) }
-      assert_equal(test_array, test_array.sort)
-      test_array = Array.new
-      yield_count = 0
-      rand(1000).times {
+
+      500.times {
         value = rand(1000)
-        test_array.bsearch_insert(value) { |x| yield_count += 1; x >= value }
+        test_array.bsearch_insert(value)
+        assert_equal(test_array, test_array.sort)
       }
-      assert_equal(test_array, test_array.sort)
-      assert_true(yield_count > test_array.length)
+      assert_equal(500, test_array.length)
+
+      new_length = 500
+      200.times {
+        value = rand(1000)
+        new_length -= 1 if test_array.include?(value)
+        test_array.bsearch_remove(value)
+        assert_equal(test_array, test_array.sort)
+      }
+      assert_equal(new_length, test_array.length)
+
       100.times {
         target_num = rand(1000)
         index = test_array.index(target_num)
