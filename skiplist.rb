@@ -1,4 +1,9 @@
 class SkipNode
+  include Comparable
+  def <=>(other)
+    @value <=> other.value
+  end
+
   attr_accessor :value, :level
   def initialize(value)
     @value = value
@@ -26,6 +31,16 @@ class SkipNode
 end
 
 class SkipList
+  include Enumerable
+  def each
+    cur = @head
+    cur = cur[0].prev until (cur.nil? or cur[0].prev.nil?)
+    until (cur.nil?)
+      yield cur
+      cur = cur[0].next
+    end
+  end
+
   def initialize(values = Array.new)
     values.each { |value| add_node_with_value(value) }
   end
@@ -51,7 +66,7 @@ class SkipList
       prev_node[search_level].next = node unless prev_node.nil?
     }
 
-    @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next == @head))
+    @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next.equal?(@head)))
   end
 
   def find_node_with_value(value)
@@ -68,7 +83,7 @@ class SkipList
   end
 
   def remove_node(node)
-    if (node == @head)
+    if (node.equal?(@head))
       @head.level.downto(0) { |level|
         if (not @head[level].prev.nil?)
           @head = @head[level].prev
@@ -79,7 +94,7 @@ class SkipList
         end
       }
     end
-    @head = nil if (node == @head)
+    @head = nil if (node.equal?(@head))
 
     node.level.downto(0) { |level|
       prev_node = node[level].prev
@@ -91,15 +106,8 @@ class SkipList
     return node
   end
 
-  def to_a
-    array = Array.new
-    cur = @head
-    cur = cur[0].prev until (cur.nil? or cur[0].prev.nil?)
-    until (cur.nil?)
-      array.push(cur.value)
-      cur = cur[0].next
-    end
-    return array
+  def values
+    to_a.map { |node| node.value }
   end
 
   private

@@ -12,7 +12,7 @@ class SkipListTest < Test::Unit::TestCase
   def test_instantiation
     @all_arrays.each { |array|
       test_list = SkipList.new(array)
-      assert_equal(array.sort, test_list.to_a)
+      assert_equal(array.sort, test_list.values)
     }
   end
 
@@ -45,7 +45,7 @@ class SkipListTest < Test::Unit::TestCase
         node = test_list.remove_node_with_value(value)
         assert_equal(node.value, value)
         assert_instance_of(SkipNode, node)
-        assert_equal(array.sort, test_list.to_a)
+        assert_equal(array.sort, test_list.values)
       }
       200.times {
         value = rand(array.length)
@@ -57,7 +57,7 @@ class SkipListTest < Test::Unit::TestCase
         else
           assert_false(node)
         end
-        assert_equal(array.sort, test_list.to_a)
+        assert_equal(array.sort, test_list.values)
       }
     }
   end
@@ -72,12 +72,12 @@ class SkipListTest < Test::Unit::TestCase
         node = test_list.remove_node_with_value(value)
         assert_equal(node.value, value)
         assert_instance_of(SkipNode, node)
-        assert_equal(array.sort, test_list.to_a)
+        assert_equal(array.sort, test_list.values)
       }
       array_clone.each { |value|
         test_list.add_node_with_value(value)
       }
-      assert_equal(array_clone.sort, test_list.to_a)
+      assert_equal(array_clone.sort, test_list.values)
     }
   end
 end
