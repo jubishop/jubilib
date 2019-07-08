@@ -67,6 +67,7 @@ class SkipList
     }
 
     @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next.equal?(@head)))
+    return node
   end
 
   def find_node_with_value(value)
