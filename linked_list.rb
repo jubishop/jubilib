@@ -1,7 +1,7 @@
 class ListNode
   include Comparable
   def <=>(other)
-    self.val <=> other.val
+    @val <=> other.val
   end
 
   attr_accessor :val, :prev, :next
@@ -48,7 +48,7 @@ class LinkedList
   def pop_node
     popped_node = @tail
     unless (@tail.nil?)
-      if (@head == @tail)
+      if (@head.equal?(@tail))
         @tail = @head = nil
       else
         @tail = tail.prev
@@ -61,7 +61,7 @@ class LinkedList
   def shift_node
     shifted_node = @head
     unless (@head.nil?)
-      if (@head == @tail)
+      if (@head.equal?(@tail))
         @tail = @head = nil
       else
         @head = head.next
@@ -91,6 +91,10 @@ class LinkedList
       end
       cur = cur.next
     end
+  end
+
+  def values
+    to_a.map{ |node| node.val }
   end
 end
 
