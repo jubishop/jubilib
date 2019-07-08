@@ -20,8 +20,9 @@ class LinkedList
     end
   end
 
-  attr_accessor :head, :tail
+  attr_accessor :head, :tail, :size
   def initialize(*values)
+    @size = 0
     values.each { |value| push_new_node(ListNode.new(value)) }
   end
 
@@ -33,6 +34,7 @@ class LinkedList
       node.prev = @tail
       @tail = node
     end
+    @size += 1
   end
 
   def unshift_new_node(node)
@@ -43,6 +45,7 @@ class LinkedList
       @head.prev = node
       @head = node
     end
+    @size += 1
   end
 
   def pop_node
@@ -54,6 +57,7 @@ class LinkedList
         @tail = tail.prev
         @tail.next = nil
       end
+      @size -= 1
     end
     return popped_node
   end
@@ -67,6 +71,7 @@ class LinkedList
         @head = head.next
         @head.prev = nil
       end
+      @size -= 1
     end
     return shifted_node
   end
@@ -87,6 +92,7 @@ class LinkedList
           cur.prev.next = cur.next
           cur.next.prev = cur.prev
         end
+        @size -= 1
         return if (once)
       end
       cur = cur.next
