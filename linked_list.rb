@@ -1,4 +1,9 @@
 class ListNode
+  include Comparable
+  def <=>(other)
+    self.val <=> other.val
+  end
+
   attr_accessor :val, :prev, :next
   def initialize(val)
     @val = val
@@ -6,8 +11,17 @@ class ListNode
 end
 
 class LinkedList
+  include Enumerable
+  def each
+    cur = @head
+    until (cur.nil?)
+      yield cur
+      cur = cur.next
+    end
+  end
+
   attr_accessor :head, :tail
-  def initialize(values = [])
+  def initialize(*values)
     values.each { |value| push_new_node(ListNode.new(value)) }
   end
 
@@ -78,19 +92,10 @@ class LinkedList
       cur = cur.next
     end
   end
-
-  def to_a
-    array = Array.new
-    cur = @head
-    until (cur.nil?)
-      array.push(cur.val)
-      cur = cur.next
-    end
-    return array
-  end
 end
 
-def make_list(array)
+# Helpers for using just ListNode's
+def make_list(*array)
   return nil if array.nil? or array.empty?
   head = ListNode.new(array.shift)
   cur = head
