@@ -16,3 +16,22 @@ class TreeNode
     return [@value, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
   end
 end
+
+class BinaryTree
+  include Enumerable
+  def each
+    return if @top.nil?
+    queue = [@top]
+    until (queue.empty?)
+      node = queue.shift
+      yield node
+      queue.push(node.left) unless node.left.nil?
+      queue.push(node.right) unless node.right.nil?
+    end
+  end
+
+  attr_accessor :top
+  def initialize(top)
+    @top = top
+  end
+end
