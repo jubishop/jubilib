@@ -13,6 +13,8 @@ end
 class LinkedList
   include Enumerable
   def each
+    return to_enum(:each) unless block_given?
+
     cur = @head
     until (cur.nil?)
       yield cur

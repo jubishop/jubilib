@@ -33,6 +33,8 @@ end
 class SkipList
   include Enumerable
   def each
+    return to_enum(:each) unless block_given?
+
     cur = @head
     cur = cur[0].prev until (cur.nil? or cur[0].prev.nil?)
     until (cur.nil?)

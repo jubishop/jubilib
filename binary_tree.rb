@@ -20,6 +20,8 @@ end
 class BinaryTree
   include Enumerable
   def each
+    return to_enum(:each) unless block_given?
+
     return if @top.nil?
     queue = [@top]
     until (queue.empty?)
