@@ -1,19 +1,19 @@
 class TreeNode
   include Comparable
   def <=>(other)
-    @value <=> other.value
+    @val <=> other.val
   end
 
-  attr_accessor :value, :left, :right
-  def initialize(value, left = nil, right = nil)
-    @value = value
+  attr_accessor :val, :left, :right
+  def initialize(val, left = nil, right = nil)
+    @val = val
     @left = TreeNode.new(*left) unless left.nil?
     @right = TreeNode.new(*right) unless right.nil?
   end
 
   def serialize
-    return @value if (@left.nil? and @right.nil?)
-    return [@value, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
+    return @val if (@left.nil? and @right.nil?)
+    return [@val, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
   end
 end
 
@@ -26,7 +26,7 @@ class BinaryTree
     queue = [@top]
     until (queue.empty?)
       node = queue.shift
-      yield node
+      yield node.val
       queue.push(node.left) unless node.left.nil?
       queue.push(node.right) unless node.right.nil?
     end
