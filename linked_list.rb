@@ -116,6 +116,15 @@ def make_list(*array)
   return head
 end
 
+def build_array(node)
+  ary = Array.new
+  until (node.nil?)
+    ary.push(node.val)
+    node = node.next
+  end
+  return ary
+end
+
 def print_list(head)
   return if head.nil?
   until (head.nil?)
