@@ -44,6 +44,11 @@ class SortedBinaryTree < BinaryTree
     inorder(@top, &block)
   end
 
+  def reverse_each(&block)
+    return to_enum(:reverse_each) unless block_given?
+    postorder(@top, &block)
+  end
+
   private
 
   def inorder(node, &block)
@@ -51,5 +56,12 @@ class SortedBinaryTree < BinaryTree
     inorder(node.left, &block)
     block.yield(node)
     inorder(node.right, &block)
+  end
+
+  def postorder(node, &block)
+    return if node.nil?
+    postorder(node.right, &block)
+    block.yield(node)
+    postorder(node.left, &block)
   end
 end
