@@ -26,14 +26,30 @@ class BinaryTree
     queue = [@top]
     until (queue.empty?)
       node = queue.shift
-      yield node.val
+      yield node
       queue.push(node.left) unless node.left.nil?
       queue.push(node.right) unless node.right.nil?
     end
   end
 
   attr_accessor :top
-  def initialize(top)
+  def initialize(top = nil)
     @top = top
+  end
+end
+
+class SortedBinaryTree < BinaryTree
+  def each(&block)
+    return to_enum(:each) unless block_given?
+    inorder(@top, &block)
+  end
+
+  private
+
+  def inorder(node, &block)
+    return if node.nil?
+    inorder(node.left, &block)
+    block.yield(node)
+    inorder(node.right, &block)
   end
 end
