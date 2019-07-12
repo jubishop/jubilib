@@ -3,19 +3,19 @@ require_relative 'linked_list.rb'
 class TreeNode
   include Comparable
   def <=>(other)
-    @val <=> other.val
+    @value <=> other.value
   end
 
-  attr_accessor :val, :left, :right
-  def initialize(val, left = nil, right = nil)
-    @val = val
+  attr_accessor :value, :left, :right
+  def initialize(value, left = nil, right = nil)
+    @value = value
     @left = TreeNode.new(*left) unless left.nil?
     @right = TreeNode.new(*right) unless right.nil?
   end
 
   def serialize
-    return @val if (@left.nil? and @right.nil?)
-    return [@val, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
+    return @value if (@left.nil? and @right.nil?)
+    return [@value, @left.nil? ? nil : @left.serialize, @right.nil? ? nil : @right.serialize]
   end
 end
 
@@ -27,7 +27,7 @@ class BinaryTree
     return if @top.nil?
     queue = LinkedList.new(@top)
     until (queue.empty?)
-      node = queue.shift_node.val
+      node = queue.shift_node.value
       yield node
       queue.push_node(ListNode.new(node.left)) unless node.left.nil?
       queue.push_node(ListNode.new(node.right)) unless node.right.nil?
@@ -37,6 +37,10 @@ class BinaryTree
   attr_accessor :top
   def initialize(*top)
     @top = top.empty? ? nil : TreeNode.new(*top)
+  end
+
+  def values
+    to_a.map{ |node| node.value }
   end
 end
 
@@ -49,6 +53,11 @@ class SortedBinaryTree < BinaryTree
   def reverse_each(&block)
     return to_enum(:reverse_each) unless block_given?
     postorder(@top, &block)
+  end
+
+  def insert(value)
+    return (@top = TreeNode.new(value)) if (@top.nil?)
+    return _insert(value, @top)
   end
 
   private
@@ -65,5 +74,14 @@ class SortedBinaryTree < BinaryTree
     postorder(node.right, &block)
     block.yield(node)
     postorder(node.left, &block)
+  end
+
+  def _insert(value, node)
+    return node if (value == node.value)
+    if (value < node.value)
+      return node.left.nil? ? (node.left = TreeNode.new(value)) : _insert(value, node.left)
+    else
+      return node.right.nil? ? (node.right = TreeNode.new(value)) : _insert(value, node.right)
+    end
   end
 end
