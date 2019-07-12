@@ -55,9 +55,19 @@ class SortedBinaryTree < BinaryTree
     postorder(@top, &block)
   end
 
-  def insert(value)
+  def add(value)
     return (@top = TreeNode.new(value)) if (@top.nil?)
     return _insert(value, @top)
+  end
+
+  def include?(value, node = @top)
+    return false if node.nil?
+    return true if node.value == value
+    if (value < node.value)
+      return include?(value, node.left)
+    else
+      return include?(value, node.right)
+    end
   end
 
   private
