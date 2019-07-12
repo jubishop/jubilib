@@ -1,3 +1,5 @@
+require_relative 'linked_list.rb'
+
 class TreeNode
   include Comparable
   def <=>(other)
@@ -23,18 +25,18 @@ class BinaryTree
     return to_enum(:each) unless block_given?
 
     return if @top.nil?
-    queue = [@top]
+    queue = LinkedList.new(@top)
     until (queue.empty?)
-      node = queue.shift
+      node = queue.shift_node.val
       yield node
-      queue.push(node.left) unless node.left.nil?
-      queue.push(node.right) unless node.right.nil?
+      queue.push_node(ListNode.new(node.left)) unless node.left.nil?
+      queue.push_node(ListNode.new(node.right)) unless node.right.nil?
     end
   end
 
   attr_accessor :top
-  def initialize(top = nil)
-    @top = top
+  def initialize(*top)
+    @top = top.empty? ? nil : TreeNode.new(*top)
   end
 end
 

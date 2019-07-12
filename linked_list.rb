@@ -25,10 +25,14 @@ class LinkedList
   attr_accessor :head, :tail, :size
   def initialize(*values)
     @size = 0
-    values.each { |value| push_new_node(ListNode.new(value)) }
+    values.each { |value| push_node(ListNode.new(value)) }
   end
 
-  def push_new_node(node)
+  def empty?
+    return @head.nil?
+  end
+
+  def push_node(node)
     if (@head.nil?)
       @head = @tail = node
     else
@@ -39,7 +43,7 @@ class LinkedList
     @size += 1
   end
 
-  def unshift_new_node(node)
+  def unshift_node(node)
     if (@head.nil?)
       @head = @tail = node
     else

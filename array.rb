@@ -1,7 +1,7 @@
 require_relative 'range.rb'
 
-class Array
-  def bsearch_insert(value)
+class SortedArray < Array
+  def add(value)
     insertion_index = block_given? ?
         bsearch_index { |x| yield x } :
         bsearch_index { |x| x >= value }
@@ -10,7 +10,7 @@ class Array
     return insertion_index
   end
 
-  def bsearch_remove(value)
+  def delete(value)
     removal_index = block_given? ?
       bsearch_index { |x| yield x } :
       bsearch_index { |x| x >= value }
@@ -22,7 +22,11 @@ class Array
     end
   end
 
-  def bsearch_include?(value)
+  def index(value)
+    return each_binary_index { |x| self[x] <=> value }
+  end
+
+  def include?(value)
     found = self.bsearch { |x| x >= value }
     return (found == value)
   end

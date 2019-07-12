@@ -14,14 +14,14 @@ class LinkedListTest < Test::Unit::TestCase
 
   def test_push
     test_list = LinkedList.new
-    @test_array.each { |value| test_list.push_new_node(ListNode.new(value)) }
+    @test_array.each { |value| test_list.push_node(ListNode.new(value)) }
     assert_equal(@test_array, test_list.values)
     assert_equal(@test_array.length, test_list.size)
   end
 
   def test_unshift
     test_list = LinkedList.new
-    @test_array.each { |value| test_list.unshift_new_node(ListNode.new(value)) }
+    @test_array.each { |value| test_list.unshift_node(ListNode.new(value)) }
     assert_equal(@test_array.reverse, test_list.values)
     assert_equal(@test_array.length, test_list.size)
   end
