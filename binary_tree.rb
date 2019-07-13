@@ -56,8 +56,12 @@ class SortedBinaryTree < BinaryTree
   end
 
   def add(value)
-    return (@top = TreeNode.new(value)) if (@top.nil?)
+    return (@top = TreeNode.new(value)) if @top.nil?
     return _insert(value, @top)
+  end
+
+  def delete(value)
+    return (@top = _delete(value))
   end
 
   def include?(value, node = @top)
@@ -93,5 +97,28 @@ class SortedBinaryTree < BinaryTree
     else
       return node.right.nil? ? (node.right = TreeNode.new(value)) : _insert(value, node.right)
     end
+  end
+
+  def _delete(value, node = @top)
+    return nil if node.nil?
+
+    if (value < node.value)
+      node.left =_delete(value, node.left)
+    elsif (value > node.value)
+      node.right = _delete(value, node.right)
+    else
+      if (node.left.nil?)
+        return node.right
+      elsif (node.right.nil?)
+        return node.left
+      end
+
+      min_right = node.right
+      min_right = min_right.left until min_right.left.nil?
+      node.value = min_right.value
+      node.right = _delete(min_right.value, node.right)
+    end
+
+    return node
   end
 end
