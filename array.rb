@@ -27,13 +27,13 @@ class SortedArray < Array
     end
   end
 
-  def index(value)
-    return each_binary_index { |x| self[x] <=> value }
-  end
-
   def include?(value)
     found = self.bsearch { |x| x >= value }
     return (found == value)
+  end
+
+  def index(value)
+    return each_binary_index { |x| self[x] <=> value }
   end
 
   def each_binary_index(left = 0, right = length - 1)

@@ -44,10 +44,10 @@ class SkipList
   end
 
   def initialize(values = Array.new)
-    values.each { |value| add_node_with_value(value) }
+    values.each { |value| add(value) }
   end
 
-  def add_node_with_value(value)
+  def add(value)
     node = SkipNode.new(value)
     @head = node and return if (@head.nil?)
 
@@ -72,20 +72,24 @@ class SkipList
     return node
   end
 
-  def find_node_with_value(value)
+  def delete(value)
+    found_node = find(value)
+    return delete_node(found_node) if (found_node)
+    return false
+  end
+
+  def include?(value)
+    return (find(value) != false)
+  end
+
+  def find(value)
     prev_node, next_node = dive_to_nearest_nodes(value, 0)
     return prev_node if (not prev_node.nil? and prev_node.value == value)
     return next_node if (not next_node.nil? and next_node.value == value)
     return false
   end
 
-  def remove_node_with_value(value)
-    found_node = find_node_with_value(value)
-    return remove_node(found_node) if (found_node)
-    return false
-  end
-
-  def remove_node(node)
+  def delete_node(node)
     if (node.equal?(@head))
       @head.level.downto(0) { |level|
         if (not @head[level].prev.nil?)
