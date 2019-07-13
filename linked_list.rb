@@ -42,7 +42,7 @@ class LinkedList
     return @head.nil?
   end
 
-  def is_symmetric?
+  def is_palindrome?
     left, right = @head, @tail
     (@size/2).times {
       return false unless left == right
