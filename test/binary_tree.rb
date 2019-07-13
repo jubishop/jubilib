@@ -2,9 +2,9 @@ require_relative '../binary_tree.rb'
 require 'test/unit'
 
 class BinaryTreeTest < Test::Unit::TestCase
-  def testSortedBinaryTree
+  def testBinarySearchTree
     test_array = Array.new
-    test_tree = SortedBinaryTree.new
+    test_tree = BinarySearchTree.new
 
     # test insert
     500.times {

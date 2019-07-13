@@ -44,7 +44,7 @@ class BinaryTree
   end
 end
 
-class SortedBinaryTree < BinaryTree
+class BinarySearchTree < BinaryTree
   def each(&block)
     return to_enum(:each) unless block_given?
     inorder(@top, &block)
