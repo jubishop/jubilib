@@ -35,7 +35,7 @@ class LinkedList
   attr_accessor :head, :tail, :size
   def initialize(*values)
     @size = 0
-    values.each { |value| push_node(ListNode.new(value)) }
+    values.compact.each { |value| push_node(ListNode.new(value)) }
   end
 
   def empty?
