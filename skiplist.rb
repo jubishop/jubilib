@@ -43,6 +43,17 @@ class SkipList
     end
   end
 
+  def each_value
+    return to_enum(:each_value) unless block_given?
+
+    cur = @head
+    cur = cur[0].prev until (cur.nil? or cur[0].prev.nil?)
+    until (cur.nil?)
+      yield cur.value
+      cur = cur[0].next
+    end
+  end
+
   def initialize(values = Array.new)
     values.each { |value| add(value) }
   end
