@@ -2,7 +2,7 @@ require_relative '../array.rb'
 require 'test/unit'
 
 class ArrayTest < Test::Unit::TestCase
-  def test_bsearch_insert_remove_and_each
+  def testSortedArray
     100.times {
       test_array = SortedArray.new
 

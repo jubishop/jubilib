@@ -1,4 +1,9 @@
+require_relative 'jubilist.rb'
 require_relative 'range.rb'
+
+class Array
+  include JubiList
+end
 
 class SortedArray < Array
   def add(value)

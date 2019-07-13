@@ -22,6 +22,16 @@ class LinkedList
     end
   end
 
+  def each_value
+    return to_enum(:each_value) unless block_given?
+
+    cur = @head
+    until (cur.nil?)
+      yield cur.val
+      cur = cur.next
+    end
+  end
+
   attr_accessor :head, :tail, :size
   def initialize(*values)
     @size = 0
@@ -30,6 +40,16 @@ class LinkedList
 
   def empty?
     return @head.nil?
+  end
+
+  def is_symmetric?
+    left, right = @head, @tail
+    (@size/2).times {
+      return false unless left == right
+      left = left.next
+      right = right.prev
+    }
+    return true
   end
 
   def push_node(node)
@@ -43,6 +63,10 @@ class LinkedList
     @size += 1
   end
 
+  def push(value)
+    push_node(ListNode.new(value))
+  end
+
   def unshift_node(node)
     if (@head.nil?)
       @head = @tail = node
@@ -52,6 +76,10 @@ class LinkedList
       @head = node
     end
     @size += 1
+  end
+
+  def unshift(value)
+    unshift_node(ListNode.new(value))
   end
 
   def pop_node
@@ -68,6 +96,10 @@ class LinkedList
     return popped_node
   end
 
+  def pop
+    return pop_node.val
+  end
+
   def shift_node
     shifted_node = @head
     unless (@head.nil?)
@@ -80,6 +112,10 @@ class LinkedList
       @size -= 1
     end
     return shifted_node
+  end
+
+  def shift
+    return shift_node.val
   end
 
   def remove_node(once = false)
