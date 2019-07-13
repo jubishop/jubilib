@@ -32,16 +32,8 @@ class LinkedList
     end
   end
 
-  attr_accessor :head, :tail, :size
-  def initialize(*values)
-    @size = 0
-    values.compact.each { |value| push_node(ListNode.new(value)) }
-  end
-
-  def empty?
-    return @head.nil?
-  end
-
+  # JubiList equivalents
+  # TODO: Implement sliding_window
   def is_palindrome?
     left, right = @head, @tail
     (@size/2).times {
@@ -50,6 +42,16 @@ class LinkedList
       right = right.prev
     }
     return true
+  end
+
+  attr_accessor :head, :tail, :size
+  def initialize(*values)
+    @size = 0
+    values.compact.each { |value| push_node(ListNode.new(value)) }
+  end
+
+  def empty?
+    return @head.nil?
   end
 
   def push_node(node)
@@ -97,7 +99,7 @@ class LinkedList
   end
 
   def pop
-    return pop_node.val
+    return empty? ? nil : pop_node.val
   end
 
   def shift_node
@@ -115,7 +117,7 @@ class LinkedList
   end
 
   def shift
-    return shift_node.val
+    return empty? ? nil : shift_node.val
   end
 
   def remove_node(once = false)
