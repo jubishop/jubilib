@@ -1,5 +1,6 @@
-require_relative 'jubilist.rb'
 require_relative 'range.rb'
+require_relative 'enumerable.rb'
+require_relative 'jubilist.rb'
 
 class Array
   include JubiList

@@ -1,3 +1,5 @@
+require_relative 'enumerable.rb'
+
 class TreeNode
   include Comparable
   def <=>(other)

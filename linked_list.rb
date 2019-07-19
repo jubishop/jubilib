@@ -1,3 +1,5 @@
+require_relative 'enumerable.rb'
+
 class ListNode
   include Comparable
   def <=>(other)
@@ -47,7 +49,7 @@ class LinkedList
   attr_accessor :head, :tail, :size
   def initialize(*values)
     @size = 0
-    values.compact.each { |value| push_node(ListNode.new(value)) }
+    values.compact.each { |value| push(value) }
   end
 
   def empty?

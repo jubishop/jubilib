@@ -1,3 +1,5 @@
+require_relative 'enumerable.rb'
+
 class SkipNode
   include Comparable
   def <=>(other)
@@ -54,8 +56,10 @@ class SkipList
     end
   end
 
-  def initialize(values = Array.new)
-    values.each { |value| add(value) }
+  attr_accessor :size
+  def initialize(*values)
+    @size = 0
+    values.compact.each { |value| add(value) }
   end
 
   def add(value)
@@ -80,6 +84,8 @@ class SkipList
     }
 
     @head = node if (node.level > @head.level or (node.level == @head.level and node[node.level].next.equal?(@head)))
+
+    @size += 1
     return node
   end
 
@@ -121,6 +127,8 @@ class SkipList
       next_node[level].prev = prev_node unless (next_node.nil?)
       node[level].prev = node[level].next = nil
     }
+
+    @size -= 1
     return node
   end
 

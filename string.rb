@@ -1,3 +1,4 @@
+require_relative 'enumerable.rb'
 require_relative 'jubilist.rb'
 
 class String
