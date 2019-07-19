@@ -11,14 +11,14 @@ class SkipListTest < Test::Unit::TestCase
 
   def test_instantiation
     @all_arrays.each { |array|
-      test_list = SkipList.new(array)
+      test_list = SkipList.new(*array)
       assert_equal(array.sort, test_list.values)
     }
   end
 
   def test_find_by_value
     @all_arrays.each { |array|
-      test_list = SkipList.new(array)
+      test_list = SkipList.new(*array)
       200.times {
         value = array.sample
         node = test_list.find(value)
@@ -38,7 +38,7 @@ class SkipListTest < Test::Unit::TestCase
 
   def test_remove_node
     @all_arrays.each { |array|
-      test_list = SkipList.new(array)
+      test_list = SkipList.new(*array)
       200.times {
         value = array.sample
         array.slice!(array.index(value))
@@ -65,7 +65,7 @@ class SkipListTest < Test::Unit::TestCase
   def test_remove_every_node
     @all_arrays.each { |array|
       array_clone = array.clone
-      test_list = SkipList.new(array)
+      test_list = SkipList.new(*array)
       array.length.times {
         value = array.sample
         array.slice!(array.index(value))
