@@ -3,13 +3,14 @@ require_relative 'enumerable.rb'
 class ListNode
   include Comparable
   def <=>(other)
-    @val <=> other.val
+    @value <=> other.value
   end
 
-  attr_accessor :val, :prev, :next
-  def initialize(val)
-    @val = val
+  attr_accessor :value, :prev, :next
+  def initialize(value)
+    @value = value
   end
+  def val; return @value; end
 end
 
 class LinkedList
@@ -29,7 +30,7 @@ class LinkedList
 
     cur = @head
     until (cur.nil?)
-      yield cur.val
+      yield cur.value
       cur = cur.next
     end
   end
@@ -101,7 +102,7 @@ class LinkedList
   end
 
   def pop
-    return empty? ? nil : pop_node.val
+    return empty? ? nil : pop_node.value
   end
 
   def shift_node
@@ -119,7 +120,7 @@ class LinkedList
   end
 
   def shift
-    return empty? ? nil : shift_node.val
+    return empty? ? nil : shift_node.value
   end
 
   def remove_node(once = false)
@@ -146,7 +147,7 @@ class LinkedList
   end
 
   def values
-    to_a.map{ |node| node.val }
+    to_a.map{ |node| node.value }
   end
 end
 
@@ -165,7 +166,7 @@ end
 def build_array(node)
   ary = Array.new
   until (node.nil?)
-    ary.push(node.val)
+    ary.push(node.value)
     node = node.next
   end
   return ary
@@ -174,7 +175,7 @@ end
 def print_list(head)
   return if head.nil?
   until (head.nil?)
-    print "#{head.val}"
+    print "#{head.value}"
     print "," unless head.next.nil?
     head = head.next
   end
