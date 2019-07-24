@@ -12,6 +12,7 @@ class TreeNode
     @left = TreeNode.new(*left) unless left.nil?
     @right = TreeNode.new(*right) unless right.nil?
   end
+  def val; return @value; end
 
   def serialize
     return @value if (@left.nil? and @right.nil?)
