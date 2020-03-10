@@ -1,5 +1,5 @@
-require_relative 'abstract/enumerable.rb'
-require_relative 'abstract/jubilist.rb'
+require_relative 'modules/enumerable.rb'
+require_relative 'modules/jubilist.rb'
 
 class String
   include Enumerable

@@ -1,17 +1,4 @@
-require_relative 'abstract/enumerable.rb'
-
-class ListNode
-  include Comparable
-  def <=>(other)
-    @value <=> other.value
-  end
-
-  attr_accessor :value, :prev, :next
-  def initialize(value)
-    @value = value
-  end
-  def val; return @value; end
-end
+require_relative 'modules/enumerable.rb'
 
 class LinkedList
   include Enumerable
@@ -35,8 +22,6 @@ class LinkedList
     end
   end
 
-  # JubiList equivalents
-  # TODO: Implement sliding_window
   def is_palindrome?
     left, right = @head, @tail
     (@size/2).times {
@@ -66,10 +51,11 @@ class LinkedList
       @tail = node
     end
     @size += 1
+    return node
   end
 
   def push(value)
-    push_node(ListNode.new(value))
+    return push_node(ListNode.new(value))
   end
 
   def unshift_node(node)
@@ -81,10 +67,11 @@ class LinkedList
       @head = node
     end
     @size += 1
+    return node
   end
 
   def unshift(value)
-    unshift_node(ListNode.new(value))
+    return unshift_node(ListNode.new(value))
   end
 
   def pop_node
@@ -149,35 +136,19 @@ class LinkedList
   def values
     to_a.map{ |node| node.value }
   end
-end
 
-# Helpers for using just ListNode's
-def make_list(*array)
-  return nil if array.nil? or array.empty?
-  head = ListNode.new(array.shift)
-  cur = head
-  array.each { |elem|
-    cur.next = ListNode.new(elem)
-    cur = cur.next
-  }
-  return head
-end
+  private
 
-def build_array(node)
-  ary = Array.new
-  until (node.nil?)
-    ary.push(node.value)
-    node = node.next
+  class ListNode
+    include Comparable
+    def <=>(other)
+      @value <=> other.value
+    end
+
+    attr_accessor :value, :prev, :next
+    def initialize(value)
+      @value = value
+    end
+    def val; return @value; end
   end
-  return ary
-end
-
-def print_list(head)
-  return if head.nil?
-  until (head.nil?)
-    print "#{head.value}"
-    print "," unless head.next.nil?
-    head = head.next
-  end
-  puts ""
 end

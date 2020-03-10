@@ -1,4 +1,4 @@
-require_relative 'abstract/enumerable.rb'
+require_relative 'modules/enumerable.rb'
 
 class TreeNode
   include Comparable
