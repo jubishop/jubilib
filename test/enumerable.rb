@@ -3,7 +3,7 @@ require 'test/unit'
 
 class EnumerableTest < Test::Unit::TestCase
   def setup
-    @test_array = Array.new(100) { |i| i }
+    @test_array = Array.new(100) { |index| index }
   end
 
   def test_to_skiplist
