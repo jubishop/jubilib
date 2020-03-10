@@ -1,4 +1,4 @@
-require_relative 'enumerable.rb'
+require_relative 'abstract/enumerable.rb'
 
 class ListNode
   include Comparable
