@@ -1,37 +1,5 @@
 require_relative 'modules/enumerable.rb'
 
-class SkipNode
-  include Comparable
-  def <=>(other)
-    @value <=> other.value
-  end
-
-  attr_accessor :value, :level
-  def initialize(value)
-    @value = value
-    @level = generate_pointer_level
-    @pointers = Array.new(@level + 1) { SkipPointer.new }
-  end
-
-  def [](level)
-    return @pointers[level]
-  end
-
-  def to_s
-    "#{@value}{#{@level}}"
-  end
-
-  private
-
-  def generate_pointer_level
-    Math.log2(2**32 / (rand(2**32) + 1)).to_i
-  end
-
-  class SkipPointer
-    attr_accessor :prev, :next
-  end
-end
-
 class SkipList
   include Enumerable
   def each
@@ -171,5 +139,37 @@ class SkipList
       search_node = search_node[search_level].prev
     end
     return search_node[search_level].prev, search_node
+  end
+
+  class SkipNode
+    include Comparable
+    def <=>(other)
+      @value <=> other.value
+    end
+
+    attr_accessor :value, :level
+    def initialize(value)
+      @value = value
+      @level = generate_pointer_level
+      @pointers = Array.new(@level + 1) { SkipPointer.new }
+    end
+
+    def [](level)
+      return @pointers[level]
+    end
+
+    def to_s
+      "#{@value}{#{@level}}"
+    end
+
+    private
+
+    def generate_pointer_level
+      Math.log2(2**32 / (rand(2**32) + 1)).to_i
+    end
+
+    class SkipPointer
+      attr_accessor :prev, :next
+    end
   end
 end

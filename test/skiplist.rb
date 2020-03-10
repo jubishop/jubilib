@@ -44,7 +44,6 @@ class SkipListTest < Test::Unit::TestCase
         array.slice!(array.index(value))
         node = test_list.delete(value)
         assert_equal(node.value, value)
-        assert_instance_of(SkipNode, node)
         assert_equal(array.sort, test_list.values)
       }
       200.times {
@@ -53,7 +52,6 @@ class SkipListTest < Test::Unit::TestCase
         if (array.include?(value))
           array.slice!(array.index(value))
           assert_equal(node.value, value)
-          assert_instance_of(SkipNode, node)
         else
           assert_false(node)
         end
@@ -71,7 +69,6 @@ class SkipListTest < Test::Unit::TestCase
         array.slice!(array.index(value))
         node = test_list.delete(value)
         assert_equal(node.value, value)
-        assert_instance_of(SkipNode, node)
         assert_equal(array.sort, test_list.values)
       }
       array_clone.each { |value|
